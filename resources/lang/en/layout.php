@@ -13,6 +13,14 @@ return [
         'exercises' => 'List of Exercises',
         'sicp_book' => 'Book',
     ],
+    'login' => [
+        'form_header' => 'Login',
+        'remember_me' => 'Remember Me',
+        'password' => 'Password',
+        'button' => 'Login',
+        'email' => 'Email',
+        'reset_password' => 'Forgot Your Password?'
+    ],
     'welcome' => [
         'mark_read' => 'Mark read',
     ],
@@ -27,9 +35,11 @@ return [
         'additionally'      => 'Additionally',
     ],
     'flash' => [
-        'success' => 'Success'
+        'success' => 'Success',
+        'error' => 'Aw, Snap! Something went wrong'
     ],
     'common' => [
-        'cancel' => 'Сancel'
+        'cancel' => 'Сancel',
+        'close' => 'Close'
     ]
 ];

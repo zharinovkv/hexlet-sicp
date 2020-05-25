@@ -9,6 +9,7 @@
 @endphp
 @section('content')
 <div class="container">
+    {{ Breadcrumbs::render('chapter', $chapter) }}
     <div class="row justify-content-center">
         <div class="col-md-8">
             <small>
@@ -40,16 +41,6 @@
             </ul>
             @endif
             @if($chapter->can_read)
-                @if ($chapter->users->isNotEmpty())
-                <p>{{ __('chapter.show.who_completed') }}</p>
-                <ul>
-                    @foreach ($chapter->users as $user)
-                    <li><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></li>
-                    @endforeach
-                </ul>
-                @else
-                <p>{{ __('chapter.show.nobody_completed') }}</p>
-                @endif
                 @auth
                 {!! Form::open()->route('users.chapters.store', [$authUser])->post() !!}
                 @foreach($authUser->chapters as $userChapter)
@@ -72,6 +63,34 @@
                 @endif
                 {!! Form::close() !!}
                 @endauth
+                @if ($chapter->users->isNotEmpty())
+                <br/>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCart">{{ __('chapter.show.who_completed') }}</button>
+                <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">{{ __('chapter.show.completed_by') }}</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    @foreach ($chapter->users as $user)
+                                    <li><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{{ __('layout.common.close') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <p>{{ __('chapter.show.nobody_completed') }}</p>
+                @endif
             @endif
             @comments(['model' => $chapter])
         </div>

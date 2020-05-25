@@ -13,6 +13,13 @@ return [
         'exercises' => 'Список упражнений',
         'sicp_book' => 'Книга',
     ],
+    'login' => [
+        'form_header' => 'Войти',
+        'remember_me' => 'Запомнить меня',
+        'password' => 'Пароль',
+        'reset_password' => 'Забыли пароль?',
+        'button' => 'Войти',
+    ],
     'welcome' => [
         'mark_read' => 'Отметить прочитанное',
     ],
@@ -27,9 +34,11 @@ return [
         'additionally'      => 'Дополнительно',
     ],
     'flash' => [
-        'success' => 'Успешно'
+        'success' => 'Успешно',
+        'error' => 'Упс! Что-то пошло не так'
     ],
     'common' => [
-        'cancel' => 'Отменить'
+        'cancel' => 'Отменить',
+        'close' => 'Закрыть'
     ]
 ];

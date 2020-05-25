@@ -6,6 +6,8 @@ use App\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
+use function getCommentLink;
+
 class CommentController extends Controller
 {
     public function __construct()
@@ -37,10 +39,10 @@ class CommentController extends Controller
         activity()
             ->performedOn($commentable)
             ->causedBy($user)
-            ->withProperties(['comment' => $comment, 'url' => $this->getCommentUrl($comment)])
+            ->withProperties(['comment' => $comment, 'url' => getCommentLink($comment)])
             ->log('commented');
 
-        return redirect($this->getCommentUrl($comment));
+        return redirect(getCommentLink($comment));
     }
 
     public function update(Request $request, Comment $comment)
@@ -54,19 +56,32 @@ class CommentController extends Controller
             ]
         );
         $content = $request->get('content', $comment->content);
-        $comment->update(['content' => $content]);
+        $comment->fill(['content' => $content]);
 
-        return redirect($this->getCommentUrl($comment));
+        if ($comment->save()) {
+            flash()->success(__('layout.flash.success'));
+        } else {
+            flash()->error(__('layout.flash.error'));
+        }
+
+        return redirect(getCommentLink($comment));
+    }
+
+    public function show(Comment $comment)
+    {
+        return redirect(
+            getCommentLink($comment)
+        );
     }
 
     public function destroy(Comment $comment)
     {
-        $comment->delete();
+        if ($comment->delete()) {
+            flash()->success(__('layout.flash.success'));
+        } else {
+            flash()->error(__('layout.flash.error'));
+        }
 
         return back();
-    }
-    private function getCommentUrl(Comment $comment)
-    {
-        return url()->previous() . '#comment-' . $comment->id;
     }
 }
